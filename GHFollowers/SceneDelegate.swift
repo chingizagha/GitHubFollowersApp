@@ -11,20 +11,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = createTabbar()
-        self.window = window
-        self.window?.makeKeyAndVisible()
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = createTabbar()
+        window?.makeKeyAndVisible()
+        
+        configureNavigationBar()
     }
     
     func createSearchNC() -> UINavigationController {
         let searchVC = SearchViewController()
         searchVC.title = "Search"
-        searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 0)
         
         return UINavigationController(rootViewController: searchVC)
     }
@@ -32,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createFavoritesNC() -> UINavigationController {
         let favoritesVC = SearchViewController()
         favoritesVC.title = "Favorites"
-        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star"), tag: 0)
         
         return UINavigationController(rootViewController: favoritesVC)
     }
@@ -42,6 +43,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UITabBar.appearance().tintColor = .systemGreen
         tabbar.viewControllers = [createSearchNC(), createFavoritesNC()]
         return tabbar
+    }
+    
+    func configureNavigationBar() {
+        UINavigationBar.appearance().tintColor = .systemGreen
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
