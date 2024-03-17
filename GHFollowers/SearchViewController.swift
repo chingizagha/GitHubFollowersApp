@@ -44,7 +44,10 @@ class SearchViewController: UITabBarController {
     
     @objc
     private func pushFolloverListVC() {
-        guard isUsernameEntered else {return}
+        guard isUsernameEntered else {
+            presentGFAlertOnMainThread(title: "Empty username", message: "Please enter a username. We need to know who to look for.", buttonTitle: "Ok")
+            return
+        }
         
         let vc = FollowerListViewController()
         vc.username = usernameTextField.text
