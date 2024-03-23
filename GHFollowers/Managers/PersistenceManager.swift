@@ -41,7 +41,6 @@ enum PersistenceManager {
     }
     
     
-    
     static func retrieveFavorites(completion: @escaping (Result<[Follower], GFError>) -> Void) {
         guard let favoritesData = defaults.object(forKey: Keys.favorites) as? Data else {
             completion(.success([]))
@@ -56,6 +55,7 @@ enum PersistenceManager {
             completion(.failure(.unableToFavorite))
         }
     }
+    
     
     static func save(favorites: [Follower]) -> GFError? {
         do {

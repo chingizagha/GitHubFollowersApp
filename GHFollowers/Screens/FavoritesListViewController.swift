@@ -24,8 +24,6 @@ class FavoritesListViewController: GFDataLoadingViewController {
         title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.removeExcessCells()
@@ -40,20 +38,27 @@ class FavoritesListViewController: GFDataLoadingViewController {
     
     private func getFavorites() {
         PersistenceManager.retrieveFavorites { [weak self] result in
-            guard let self = self else {return}
+            guard let self else {return}
             switch result {
             case .success(let favorites):
-                if favorites.isEmpty {
-                    showEmptyStateView(with: "No Favorites?\nAdd one the follower screen.", in: self.view)
-                } else {
-                    self.favorites = favorites
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.view.bringSubviewToFront(self.tableView)
-                    }
-                }
+                updateUI(with: favorites)
             case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Something went wrong.", message: error.rawValue, buttonTitle: "Ok")
+                DispatchQueue.main.async {
+                    self.presentGFAlert(title: "Something went wrong.", message: error.rawValue, buttonTitle: "Ok")
+                }
+                
+            }
+        }
+    }
+    
+    func updateUI(with favorites: [Follower]) {
+        if favorites.isEmpty {
+            showEmptyStateView(with: "No Favorites?\nAdd one the follower screen.", in: self.view)
+        } else {
+            self.favorites = favorites
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.view.bringSubviewToFront(self.tableView)
             }
         }
     }
@@ -91,14 +96,19 @@ extension FavoritesListViewController: UITableViewDataSource, UITableViewDelegat
         let favorite = favorites[indexPath.row]
         
         PersistenceManager.updateWith(favorite: favorite, actionType: .remove) { [weak self] error in
-            guard let self = self else {return}
-            guard let error = error else {
+            guard let self else {return}
+            guard let error else {
                 self.favorites.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
+                if self.favorites.isEmpty {
+                    showEmptyStateView(with: "No Favorites?\nAdd one the follower screen.", in: self.view)
+                }
                 return
             }
-            self.presentGFAlertOnMainThread(title: "Unable to remove", message: error.rawValue, buttonTitle: "Ok")
+            DispatchQueue.main.async {
+                self.presentGFAlert(title: "Success!", message: "You have successfully favorited this user", buttonTitle: "Ok")
+                return
+            }
         }
-        
     }
 }

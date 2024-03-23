@@ -18,9 +18,7 @@ class SearchViewController: UIViewController {
     
     let usernameTextField = GFTextField()
     let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
-    var logoImageViewTopConstraint: NSLayoutConstraint!
     
-
     var isUsernameEntered: Bool {
         return !usernameTextField.text!.isEmpty
     }
@@ -33,7 +31,6 @@ class SearchViewController: UIViewController {
         
         usernameTextField.delegate = self
         callToActionButton.addTarget(self, action: #selector(pushFolloverListVC), for: .touchUpInside)
-        
         
         createDismissKeyboardTapGesture()
         addConstraints()
@@ -48,7 +45,9 @@ class SearchViewController: UIViewController {
     @objc
     private func pushFolloverListVC() {
         guard isUsernameEntered else {
-            presentGFAlertOnMainThread(title: "Empty username", message: "Please enter a username. We need to know who to look for.", buttonTitle: "Ok")
+            DispatchQueue.main.async {
+                self.presentGFAlert(title: "Empty username", message: "Please enter a username. We need to know who to look for.", buttonTitle: "Ok")
+            }
             return
         }
         usernameTextField.resignFirstResponder()
@@ -66,12 +65,8 @@ class SearchViewController: UIViewController {
     private func addConstraints(){
         let topConstraintConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 20 : 80
         
-        logoImageViewTopConstraint = logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant)
-        logoImageViewTopConstraint.isActive = true
-        
-        
         NSLayoutConstraint.activate([
-            //logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 200),
             logoImageView.widthAnchor.constraint(equalToConstant: 200),
@@ -95,5 +90,4 @@ extension SearchViewController: UITextFieldDelegate {
         pushFolloverListVC()
         return true
     }
-    
 }
