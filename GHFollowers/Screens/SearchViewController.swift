@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UITabBarController {
+class SearchViewController: UIViewController {
     
     let logoImageView: UIImageView = {
         let image = UIImageView()

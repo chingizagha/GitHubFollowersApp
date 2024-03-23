@@ -15,7 +15,7 @@ class GFItemInfoViewController: UIViewController {
     let actionButton = GFButton()
     
     var user: User!
-    weak var delegate: UserInfoViewControllerDelegate!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

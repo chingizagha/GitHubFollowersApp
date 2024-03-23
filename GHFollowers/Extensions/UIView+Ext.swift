@@ -1,8 +1,8 @@
 //
-//  Extensions.swift
+//  UIView + Ext.swift
 //  GHFollowers
 //
-//  Created by Chingiz on 15.03.24.
+//  Created by Chingiz on 23.03.24.
 //
 
 import UIKit
