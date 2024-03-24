@@ -20,7 +20,7 @@ Full featured universal (iOS, iPadOS) app.
 - Auto layout Based
 - Universal App: Run on iPhone and iPad
 - Built in Xcode 15
-- [Leverages free Rick & Morty API](https://docs.github.com/en/rest/quickstart?apiVersion=2022-11-28)
+- [Leverages free GitHub API](https://docs.github.com/en/rest/quickstart?apiVersion=2022-11-28)
 
 
 ## Design
