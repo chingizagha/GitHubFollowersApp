@@ -36,6 +36,19 @@ class FavoritesListViewController: GFDataLoadingViewController {
         getFavorites()
     }
     
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+        if favorites.isEmpty {
+            var config = UIContentUnavailableConfiguration.empty()
+            config.image = .init(systemName: "star")
+            config.text = "No Favorites"
+            config.secondaryText = "Add a favorite on the follower list screen"
+            contentUnavailableConfiguration = config
+        } else {
+            contentUnavailableConfiguration = nil
+        }
+        
+    }
+    
     private func getFavorites() {
         PersistenceManager.retrieveFavorites { [weak self] result in
             guard let self else {return}
@@ -46,20 +59,16 @@ class FavoritesListViewController: GFDataLoadingViewController {
                 DispatchQueue.main.async {
                     self.presentGFAlert(title: "Something went wrong.", message: error.rawValue, buttonTitle: "Ok")
                 }
-                
             }
         }
     }
     
     func updateUI(with favorites: [Follower]) {
-        if favorites.isEmpty {
-            showEmptyStateView(with: "No Favorites?\nAdd one the follower screen.", in: self.view)
-        } else {
-            self.favorites = favorites
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.view.bringSubviewToFront(self.tableView)
-            }
+        self.favorites = favorites
+        setNeedsUpdateContentUnavailableConfiguration()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.view.bringSubviewToFront(self.tableView)
         }
     }
     
@@ -100,15 +109,15 @@ extension FavoritesListViewController: UITableViewDataSource, UITableViewDelegat
             guard let error else {
                 self.favorites.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
-                if self.favorites.isEmpty {
-                    showEmptyStateView(with: "No Favorites?\nAdd one the follower screen.", in: self.view)
-                }
+                setNeedsUpdateContentUnavailableConfiguration()
                 return
             }
             DispatchQueue.main.async {
-                self.presentGFAlert(title: "Success!", message: "You have successfully favorited this user", buttonTitle: "Ok")
+                self.presentGFAlert(title: "Success!", message: error.rawValue, buttonTitle: "Ok")
                 return
             }
         }
     }
 }
+
+#Preview{FavoritesListViewController()}

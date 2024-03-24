@@ -33,5 +33,14 @@ class GFButton: UIButton {
         configuration?.baseBackgroundColor = color
         configuration?.baseForegroundColor = color
         configuration?.title = title
+        
+        configuration?.image = UIImage(systemName: "calendar")
+        configuration?.imagePadding = 6
+        configuration?.imagePlacement = .leading
     }
+}
+
+#Preview {
+    let button = GFButton(backgroundColor: .red, title: "Select")
+    return button
 }

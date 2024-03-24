@@ -14,7 +14,7 @@ final class NetworkManager {
     let cache = NSCache<NSString, UIImage>()
     let decoder = JSONDecoder()
     
-    private init() {
+    private init() { 
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .iso8601
     }

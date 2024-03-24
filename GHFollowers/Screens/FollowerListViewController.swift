@@ -55,6 +55,21 @@ class FollowerListViewController: GFDataLoadingViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+        if followers.isEmpty  && !isLoadingMoreFollowers {
+            var config = UIContentUnavailableConfiguration.empty()
+            config.image = .init(systemName: "person.slash")
+            config.text = "No Followers"
+            config.secondaryText = "This user has no followers. Go follow them."
+            contentUnavailableConfiguration = config
+        } else if isSearching && filteredFollowers.isEmpty{
+            contentUnavailableConfiguration = UIContentUnavailableConfiguration.search()
+        } else {
+            contentUnavailableConfiguration = nil
+        }
+        
+    }
+    
     @objc
     private func didTapAddButton() {
         showLoadingView()
@@ -82,7 +97,7 @@ class FollowerListViewController: GFDataLoadingViewController {
             guard let self else {return}
             guard let error else {
                 DispatchQueue.main.async {
-                    self.presentGFAlert(title: "Success!", message: "You have successfully favorited this user", buttonTitle: "Ok")
+                    self.presentGFAlert(title: "Success!", message: error?.rawValue ?? "", buttonTitle: "Ok")
                 }
                 return
             }
@@ -138,15 +153,8 @@ class FollowerListViewController: GFDataLoadingViewController {
     func updateUI(with followers: [Follower]) {
         if followers.count < 100 { self.hasMoreFollowers = false }
         self.followers.append(contentsOf: followers)
-        
-        if self.followers.isEmpty {
-            let message = "This user doesn't have any followers. Go follow them 😔"
-            DispatchQueue.main.async {
-                self.showEmptyStateView(with: message, in: self.view)
-                return
-            }
-        }
         self.updateData(on: self.followers)
+        setNeedsUpdateContentUnavailableConfiguration()
     }
     
     func configureCollectionView(){
@@ -208,9 +216,9 @@ extension FollowerListViewController: UISearchResultsUpdating{
             return
         }
         isSearching = true
-        
         filteredFollowers = followers.filter({ $0.login.lowercased().contains(filter.lowercased()) })
         updateData(on: filteredFollowers)
+        setNeedsUpdateContentUnavailableConfiguration()
     }
     
     
@@ -239,4 +247,8 @@ extension FollowerListViewController: UserInfoViewControllerDelegate {
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         getFollowers(username: username, page: page)
     }
+}
+
+#Preview {
+    FollowerListViewController(username: "chingizaga")
 }
