@@ -6,14 +6,30 @@
 //
 
 import UIKit
+import Sentry
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        SentrySDK.start { options in
+            options.dsn = "https://80c0917d70d1981f02278a2095bbf86f@o4507502696005632.ingest.de.sentry.io/4507502737358928"
+            
+            options.debug = true // Helpful for debugging Sentry integration
+            options.enableAutoSessionTracking = true
+            options.attachStacktrace = true
+            
+            options.attachViewHierarchy = true
+            options.enableMetricKit = true
+            options.enableTimeToFullDisplayTracing = true
+            options.swiftAsyncStacktraces = true
+            options.enableAppLaunchProfiling = true
+        }
+        
+        
         return true
     }
 

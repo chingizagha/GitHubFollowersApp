@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Sentry
 
 enum Section {
     case main
@@ -48,6 +49,12 @@ class FollowerListViewController: GFDataLoadingViewController {
         configureSearchController()
         view.addSubviews(collectionView)
         addConstraints()
+        
+        SentrySDK.metrics
+            .increment(key: "button_login_click",
+                       value: 1.0,
+                       tags: ["screen": "login"]
+            )
     }
     
     override func viewWillAppear(_ animated: Bool) {

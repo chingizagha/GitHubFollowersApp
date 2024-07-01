@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Sentry
 
 class FavoritesListViewController: GFDataLoadingViewController {
     
@@ -29,8 +30,22 @@ class FavoritesListViewController: GFDataLoadingViewController {
         tableView.removeExcessCells()
         
         layoutUI()
+        
+        SentrySDK.metrics
+            .increment(key: "button_login_click",
+                       value: 1.0,
+                       tags: ["screen": "login"]
+            )
+        
+        //let event = Event(level: .info)
+        let event = Event(level: .error)
+        
+        event.message = SentryMessage(formatted: "error02")
+        
+        SentrySDK.capture(event: event)
     }
     
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getFavorites()

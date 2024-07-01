@@ -29,6 +29,7 @@
 		7263DA8F2BAF08780049DCAB /* GFDataLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7263DA8E2BAF08780049DCAB /* GFDataLoadingViewController.swift */; };
 		7263DA912BAF10110049DCAB /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7263DA902BAF10110049DCAB /* UIView+Ext.swift */; };
 		7263DA932BAF16C20049DCAB /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7263DA922BAF16C20049DCAB /* UITableView+Ext.swift */; };
+		7275A5B02C2D726A004B386B /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 7275A5AF2C2D726A004B386B /* Sentry */; };
 		729D88562BA72D6700E72AAB /* GFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729D88552BA72D6700E72AAB /* GFTitleLabel.swift */; };
 		729D88582BA72EA600E72AAB /* GFBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729D88572BA72EA600E72AAB /* GFBodyLabel.swift */; };
 		729D885A2BA72F5B00E72AAB /* GFAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729D88592BA72F5B00E72AAB /* GFAlertViewController.swift */; };
@@ -95,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7275A5B02C2D726A004B386B /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				72F911212BA3870400666638 /* FavoritesListViewController.swift */,
+				72F911142BA3817B00666638 /* Assets.xcassets */,
 				72F911292BA4564400666638 /* FollowerListViewController.swift */,
 				72F9111F2BA386E200666638 /* SearchViewController.swift */,
 				7245DC8E2BAC987700F18C15 /* UserInfoViewController.swift */,
@@ -199,7 +202,6 @@
 				72F9110B2BA3817900666638 /* AppDelegate.swift */,
 				72F9110D2BA3817900666638 /* SceneDelegate.swift */,
 				72F911162BA3817B00666638 /* LaunchScreen.storyboard */,
-				72F911142BA3817B00666638 /* Assets.xcassets */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -315,6 +317,9 @@
 			dependencies = (
 			);
 			name = GHFollowers;
+			packageProductDependencies = (
+				7275A5AF2C2D726A004B386B /* Sentry */,
+			);
 			productName = GHFollowers;
 			productReference = 72F911082BA3817900666638 /* GHFollowers.app */;
 			productType = "com.apple.product-type.application";
@@ -343,6 +348,9 @@
 				Base,
 			);
 			mainGroup = 72F910FF2BA3817900666638;
+			packageReferences = (
+				7275A5AE2C2D726A004B386B /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+			);
 			productRefGroup = 72F911092BA3817900666638 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -566,6 +574,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -597,6 +606,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -625,6 +635,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7275A5AE2C2D726A004B386B /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.30.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7275A5AF2C2D726A004B386B /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7275A5AE2C2D726A004B386B /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 72F911002BA3817900666638 /* Project object */;
 }

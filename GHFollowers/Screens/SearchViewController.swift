@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Sentry
 
 class SearchViewController: UIViewController {
     
@@ -34,6 +35,12 @@ class SearchViewController: UIViewController {
         
         createDismissKeyboardTapGesture()
         addConstraints()
+        
+        SentrySDK.metrics
+            .increment(key: "button_login_click",
+                       value: 1.0,
+                       tags: ["screen": "login"]
+            )
     }
     
     override func viewWillAppear(_ animated: Bool) {
